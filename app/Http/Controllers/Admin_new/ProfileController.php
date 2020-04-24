@@ -17,22 +17,27 @@ class ProfileController extends Controller
     
     public function create(Request $request)
   {
-      $this->validate($request, Profile::$rules);
+     $this->validate($request, Profile::$rules);
       $profile = new Profile;
       $form = $request->all();
-      if (isset($form['image'])) {
-        $path = $request->file('image')->store('public/image');
-        $profile->image_path = basename($path);
-      } else {
-          $profile->image_path = null;
-      }
+
       unset($form['_token']);
       unset($form['image']);
+      
       $profile->fill($form);
-      $profile->save();
+      $profile->save(); 
       return redirect('admin/profile/create');
   }
-
+    public function index(Request $request)
+  {
+      $cond_title = $request->cond_title;
+      if ($cond_title != '') {
+          $posts = Profile::where('title', $cond_title)->get();
+      } else {
+          $posts = Profile::all();
+      }
+      return view('admin.profile.index', ['posts' => $posts, 'cond_title' => $cond_title]);
+  }
     public function edit(Request $request)
   {
       $profile = Profile::find($request->id);

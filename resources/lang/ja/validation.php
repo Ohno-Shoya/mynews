@@ -150,7 +150,7 @@ return [
         'body' => '本文',
         'name' => '氏名',
         'gender' => '性別',
-        'hibby' => '趣味',
+        'hobby' => '趣味',
         'introduction' => '自己紹介',
         ],
 
